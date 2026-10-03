@@ -6,10 +6,12 @@
 <style>
     .form-container {
         background-color: var(--pico-card-background-color) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 14px !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 16px !important;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
         padding: 2.5rem !important;
+        max-width: 800px;
+        margin: 0 auto 3rem auto;
     }
     .form-header h3 {
         color: #f8fafc;
@@ -21,6 +23,9 @@
         font-size: 0.95rem;
         margin-bottom: 2rem;
     }
+    .form-group-row {
+        margin-bottom: 1.25rem;
+    }
     label {
         color: #cbd5e1 !important;
         font-weight: 600;
@@ -28,11 +33,11 @@
         display: block;
     }
     input, textarea, select {
-        background-color: #11131e !important;
+        background-color: #0b0f19 !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         color: #f1f5f9 !important;
         border-radius: 8px !important;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+        transition: all 0.2s ease !important;
     }
     input:focus, textarea:focus, select:focus {
         border-color: var(--pico-primary) !important;
@@ -59,41 +64,56 @@
     <form action="{{ route('cursos.store') }}" method="POST">
         @csrf
 
-        <div class="grid">
-            <label for="codigo">
-                <i class="fa-solid fa-barcode field-icon"></i> Código del Curso <span style="color: var(--pico-primary);">*</span>
+        <!-- Fila 1: Código y Título -->
+        <div class="grid form-group-row">
+            <div>
+                <label for="codigo">
+                    <i class="fa-solid fa-barcode field-icon"></i> Código del Curso <span style="color: var(--pico-primary);">*</span>
+                </label>
                 <input type="text" id="codigo" name="codigo" value="{{ old('codigo') }}" placeholder="Ej: CUR-PHP11" required>
                 @error('codigo') <span class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span> @enderror
-            </label>
+            </div>
 
-            <label for="titulo">
-                <i class="fa-solid fa-book field-icon"></i> Título del Curso <span style="color: var(--pico-primary);">*</span>
-                <input type="text" id="titulo" name="titulo" value="{{ old('titulo') }}" placeholder="Ej: Microservicios Avanzados con Laravel" required>
+            <div>
+                <label for="titulo">
+                    <i class="fa-solid fa-book field-icon"></i> Título del Curso <span style="color: var(--pico-primary);">*</span>
+                </label>
+                <input type="text" id="titulo" name="titulo" value="{{ old('titulo') }}" placeholder="Ej: Microservicios con Laravel" required>
                 @error('titulo') <span class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span> @enderror
-            </label>
+            </div>
         </div>
 
-        <label for="descripcion">
-            <i class="fa-solid fa-align-left field-icon"></i> Sumilla / Descripción Detallada <span style="color: var(--pico-primary);">*</span>
+        <!-- Fila 2: Descripción (A lo ancho, aislada en su propia sección) -->
+        <div class="form-group-row">
+            <label for="descripcion">
+                <i class="fa-solid fa-align-left field-icon"></i> Sumilla / Descripción Detallada <span style="color: var(--pico-primary);">*</span>
+            </label>
             <textarea id="descripcion" name="descripcion" rows="4" placeholder="Ingrese detalladamente el temario, las competencias y el alcance académico del programa..." required>{{ old('descripcion') }}</textarea>
             @error('descripcion') <span class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span> @enderror
-        </label>
+        </div>
 
-        <div class="grid">
-            <label for="precio">
-                <i class="fa-solid fa-money-bill-wave field-icon"></i> Inversión (S/.) <span style="color: var(--pico-primary);">*</span>
+        <!-- Fila 3: Atributos numéricos y selectores -->
+        <div class="grid form-group-row">
+            <div>
+                <label for="precio">
+                    <i class="fa-solid fa-money-bill-wave field-icon"></i> Inversión (S/.) <span style="color: var(--pico-primary);">*</span>
+                </label>
                 <input type="number" step="0.01" id="precio" name="precio" value="{{ old('precio') }}" placeholder="299.90" required>
                 @error('precio') <span class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span> @enderror
-            </label>
+            </div>
 
-            <label for="duracion_horas">
-                <i class="fa-regular fa-clock field-icon"></i> Duración Cronológica (Horas) <span style="color: var(--pico-primary);">*</span>
+            <div>
+                <label for="duracion_horas">
+                    <i class="fa-regular fa-clock field-icon"></i> Duración (Horas) <span style="color: var(--pico-primary);">*</span>
+                </label>
                 <input type="number" id="duracion_horas" name="duracion_horas" value="{{ old('duracion_horas') }}" placeholder="48" required>
                 @error('duracion_horas') <span class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span> @enderror
-            </label>
+            </div>
 
-            <label for="nivel">
-                <i class="fa-solid fa-chart-line field-icon"></i> Nivel Académico <span style="color: var(--pico-primary);">*</span>
+            <div>
+                <label for="nivel">
+                    <i class="fa-solid fa-chart-line field-icon"></i> Nivel Académico <span style="color: var(--pico-primary);">*</span>
+                </label>
                 <select id="nivel" name="nivel" required>
                     <option value="" disabled {{ old('nivel') ? '' : 'selected' }}>Seleccione complejidad</option>
                     <option value="Básico">Básico</option>
@@ -104,7 +124,7 @@
             </label>
         </div>
 
-        <footer style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; background: transparent; padding: 0; border: none;">
+        <footer style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2.5rem; background: transparent; padding: 0; border: none;">
             <a href="{{ route('cursos.index') }}" class="secondary outline" role="button" style="margin-bottom: 0; padding: 0.6rem 1.5rem;">
                 <i class="fa-solid fa-arrow-left"></i> Cancelar
             </a>

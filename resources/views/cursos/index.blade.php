@@ -193,9 +193,6 @@
 <section>
     <div class="catalog-header">
         <h1>Catálogo de Cursos Ofertados</h1>
-        <a href="{{ route('cursos.create') }}" class="btn-nuevo-curso" style="text-decoration: none;">
-            <i class="fa-solid fa-plus"></i> Registrar Curso
-        </a>
     </div>
 
     <div class="courses-grid">
