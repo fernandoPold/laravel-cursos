@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CursoStoreRequest extends FormRequest
 {
@@ -13,10 +14,13 @@ class CursoStoreRequest extends FormRequest
 
     public function rules(): array
     {
-        $cursoId = $this->route('curso'); 
-
         return [
-            'codigo' => 'required|string|max:20|unique:cursos,codigo,' . $cursoId,
+            'codigo' => [
+                'required',
+                'string',
+                'max:20',
+                Rule::unique('cursos', 'codigo')->ignore($this->route('curso')),
+            ],
             'titulo' => 'required|string|max:150',
             'descripcion' => 'required|string|min:10',
             'precio' => 'required|numeric|min:0',
