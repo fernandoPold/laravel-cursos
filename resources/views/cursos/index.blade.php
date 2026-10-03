@@ -44,23 +44,27 @@
         border-color: rgba(139, 92, 246, 0.4) !important;
     }
     
-    /* Imagen de Portada Automatizada */
+    /* Contenedor de Portada con Degradados Tecnológicos */
     .card-image-wrapper {
         position: relative;
-        height: 160px;
-        background-color: #1f2937;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         overflow: hidden;
     }
-    .card-image-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.75;
-        transition: transform 0.5s ease;
+    .wrapper-basico { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .wrapper-intermedio { background: linear-gradient(135deg, #78350f, #d97706); }
+    .wrapper-avanzado { background: linear-gradient(135deg, #7f1d1d, #dc2626); }
+
+    .card-image-wrapper i {
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.6);
+        transition: transform 0.3s ease;
     }
-    .course-card:hover .card-image-wrapper img {
-        transform: scale(1.08);
-        opacity: 0.9;
+    .course-card:hover .card-image-wrapper i {
+        transform: scale(1.15) rotate(5deg);
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .card-body {
@@ -198,8 +202,14 @@
         @foreach($cursos as $curso)
             <article class="course-card">
                 <!-- Imagen Dinámica según el Nombre del Curso -->
-                <div class="card-image-wrapper">
-                    <img src="https://unsplash.com" alt="Banner del curso">
+                <div class="card-image-wrapper wrapper-{{ Str::slug($curso->nivel) }}">
+                    @if($curso->nivel == 'Básico')
+                        <i class="fa-solid fa-code"></i>
+                    @elseif($curso->nivel == 'Intermedio')
+                        <i class="fa-solid fa-laptop-code"></i>
+                    @else
+                        <i class="fa-solid fa-terminal"></i>
+                    @endif
                 </div>
                 
                 <div class="card-body">
