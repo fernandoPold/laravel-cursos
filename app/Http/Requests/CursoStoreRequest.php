@@ -13,8 +13,10 @@ class CursoStoreRequest extends FormRequest
 
     public function rules(): array
     {
+        $cursoId = $this->route('curso'); 
+
         return [
-            'codigo' => 'required|string|max:20|unique:cursos,codigo',
+            'codigo' => 'required|string|max:20|unique:cursos,codigo,' . $cursoId,
             'titulo' => 'required|string|max:150',
             'descripcion' => 'required|string|min:10',
             'precio' => 'required|numeric|min:0',
