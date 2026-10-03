@@ -21,8 +21,8 @@ class CursoService implements CursoServiceInterface
     {
         $curso = Curso::find($id);
 
-        if (!$curso) {
-            throw new Exception("El curso solicitado con ID {$id} no existe o no se encuentra disponible.");
+        if (!$curso || !$curso->estado) {
+            throw new Exception("El curso solicitado no existe o no se encuentra disponible.");
         }
 
         return $curso;
@@ -30,21 +30,35 @@ class CursoService implements CursoServiceInterface
 
     public function registrarCurso(array $datos): Curso
     {
-        // Regla de Negocio: Validar duplicidad de código
-        if (Curso::where('codigo', $datos['codigo'])->exists()) {
-            throw new Exception("El código '{$datos['codigo']}' ya se encuentra registrado en el sistema.");
-        }
-
-        // Regla de Negocio: El precio no puede ser negativo
-        if ($datos['precio'] < 0) {
-            throw new Exception("El precio del curso no puede ser un valor negativo.");
-        }
-
         try {
             return Curso::create($datos);
         } catch (Exception $e) {
-            Log::error("Error al registrar el curso: " . $e->getMessage());
-            throw new Exception("Ocurrió un error interno al intentar guardar el curso.");
+            Log::error("Error crítico al registrar el curso: " . $e->getMessage());
+            throw new Exception("Ocurrió un error interno en el servidor al intentar guardar el curso.");
+        }
+    }
+
+    public function actualizarCurso(int $id, array $datos): Curso
+    {
+        try {
+            $curso = $this->obtenerPorId($id);
+            $curso->update($datos);
+            return $curso;
+        } catch (Exception $e) {
+            Log::error("Error crítico al actualizar el curso ID {$id}: " . $e->getMessage());
+            throw new Exception("Ocurrió un error interno al intentar actualizar los datos del curso.");
+        }
+    }
+
+    public function eliminarCurso(int $id): bool
+    {
+        try {
+            $curso = $this->obtenerPorId($id);
+            // Hacemos un borrado lógico cambiando el estado a falso para mantener la integridad de los datos
+            return $curso->update(['estado' => false]);
+        } catch (Exception $e) {
+            Log::error("Error crítico al eliminar el curso ID {$id}: " . $e->getMessage());
+            throw new Exception("Ocurrió un error interno al intentar dar de baja el curso.");
         }
     }
 }

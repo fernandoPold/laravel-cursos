@@ -4,7 +4,7 @@
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "remoteUser": "vscode",
-  "forwardPorts":,
+  "forwardPorts":[8000],
   "portsAttributes": { "8000": { "label": "Laravel", "onAutoForward": "notify" } },
   "customizations": {
     "vscode": {

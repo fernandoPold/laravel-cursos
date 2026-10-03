@@ -5,6 +5,5 @@ use App\Http\Controllers\CursoController;
 
 Route::redirect('/', '/cursos');
 
-Route::resource('cursos', CursoController::class)->only([
-    'index', 'create', 'store', 'show'
-]);
+// Eliminamos el ->only(...) para habilitar el soporte CRUD completo en la navegación
+Route::resource('cursos', CursoController::class);

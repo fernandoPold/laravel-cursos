@@ -11,7 +11,6 @@ class CursoController extends BaseController
 {
     protected CursoServiceInterface $cursoService;
 
-    // Inyección de la interfaz del servicio
     public function __construct(CursoServiceInterface $cursoService)
     {
         $this->cursoService = $cursoService;
@@ -43,6 +42,36 @@ class CursoController extends BaseController
         try {
             $curso = $this->cursoService->obtenerPorId($id);
             return view('cursos.show', compact('curso'));
+        } catch (Exception $e) {
+            return redirect()->route('cursos.index')->withErrors(['error_negocio' => $e->getMessage()]);
+        }
+    }
+
+    public function edit(int $id)
+    {
+        try {
+            $curso = $this->cursoService->obtenerPorId($id);
+            return view('cursos.edit', compact('curso'));
+        } catch (Exception $e) {
+            return redirect()->route('cursos.index')->withErrors(['error_negocio' => $e->getMessage()]);
+        }
+    }
+
+    public function update(CursoStoreRequest $request, int $id)
+    {
+        try {
+            $this->cursoService->actualizarCurso($id, $request->validated());
+            return redirect()->route('cursos.index')->with('success', '¡Curso actualizado correctamente!');
+        } catch (Exception $e) {
+            return back()->withInput()->withErrors(['error_negocio' => $e->getMessage()]);
+        }
+    }
+
+    public function destroy(int $id)
+    {
+        try {
+            $this->cursoService->eliminarCurso($id);
+            return redirect()->route('cursos.index')->with('success', 'El curso ha sido eliminado del catálogo.');
         } catch (Exception $e) {
             return redirect()->route('cursos.index')->withErrors(['error_negocio' => $e->getMessage()]);
         }
