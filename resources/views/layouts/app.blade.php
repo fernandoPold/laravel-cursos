@@ -6,7 +6,7 @@
     <title>@yield('title', 'EduStream - Premium LMS')</title>
     <!-- Pico CSS v2 -->
     <link rel="stylesheet" href="https://jsdelivr.net">
-    <!-- FontAwesome -->
+    <!-- FontAwesome Oficial para Iconos Modernos -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
     <style>
