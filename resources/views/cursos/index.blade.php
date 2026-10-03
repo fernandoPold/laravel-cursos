@@ -47,7 +47,7 @@
     /* Contenedor de Portada con Degradados Tecnológicos */
     .card-image-wrapper {
         position: relative;
-        height: 140px;
+        height: 24px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -202,15 +202,7 @@
         @foreach($cursos as $curso)
             <article class="course-card">
                 <!-- Imagen Dinámica según el Nombre del Curso -->
-                <div class="card-image-wrapper wrapper-{{ Str::slug($curso->nivel) }}">
-                    @if($curso->nivel == 'Básico')
-                        <i class="fa-solid fa-code"></i>
-                    @elseif($curso->nivel == 'Intermedio')
-                        <i class="fa-solid fa-laptop-code"></i>
-                    @else
-                        <i class="fa-solid fa-terminal"></i>
-                    @endif
-                </div>
+                <div class="card-image-wrapper wrapper-{{ Str::slug($curso->nivel) }}"></div>
                 
                 <div class="card-body">
                     <div class="card-meta">
