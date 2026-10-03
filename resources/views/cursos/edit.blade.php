@@ -10,7 +10,7 @@
         border-radius: 16px !important;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
         padding: 2.5rem !important;
-        max-width: 800px;
+        max-width: 750px;
         margin: 0 auto 3rem auto;
     }
     .form-header h3 {
@@ -23,8 +23,21 @@
         font-size: 0.95rem;
         margin-bottom: 2rem;
     }
-    .form-group-row {
-        margin-bottom: 1.25rem;
+    .form-field-block {
+        margin-bottom: 1.5rem;
+        width: 100%;
+    }
+    .form-row-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .form-row-grid-three {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
     }
     label {
         color: #cbd5e1 !important;
@@ -33,11 +46,13 @@
         display: block;
     }
     input, textarea, select {
+        width: 100% !important;
         background-color: #0b0f19 !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         color: #f1f5f9 !important;
         border-radius: 8px !important;
         transition: all 0.2s ease !important;
+        box-sizing: border-box;
     }
     input:focus, textarea:focus, select:focus {
         border-color: var(--pico-primary) !important;
@@ -53,6 +68,12 @@
         margin-top: 0.25rem;
         display: block;
     }
+    @media (max-width: 600px) {
+        .form-row-grid, .form-row-grid-three {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
 </style>
 
 <article class="form-container">
@@ -65,7 +86,7 @@
         @csrf
         @method('PUT')
 
-        <div class="grid form-group-row">
+        <div class="form-row-grid">
             <div>
                 <label for="codigo">
                     <i class="fa-solid fa-barcode field-icon"></i> Código del Curso <span style="color: var(--pico-primary);">*</span>
@@ -83,7 +104,7 @@
             </div>
         </div>
 
-        <div class="form-group-row">
+        <div class="form-field-block">
             <label for="descripcion">
                 <i class="fa-solid fa-align-left field-icon"></i> Sumilla / Descripción Detallada <span style="color: var(--pico-primary);">*</span>
             </label>
@@ -91,7 +112,7 @@
             @error('descripcion') <span class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</span> @enderror
         </div>
 
-        <div class="grid form-group-row">
+        <div class="form-row-grid-three">
             <div>
                 <label for="precio">
                     <i class="fa-solid fa-money-bill-wave field-icon"></i> Inversión (S/.) <span style="color: var(--pico-primary);">*</span>
