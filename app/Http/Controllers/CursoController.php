@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Services\Contracts\CursoServiceInterface;
 use App\Http\Requests\CursoStoreRequest;
+use Illuminate\Routing\Controller as BaseController;
 use Exception;
 
-class CursoController extends Controller
+class CursoController extends BaseController
 {
     protected CursoServiceInterface $cursoService;
 
