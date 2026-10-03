@@ -4,47 +4,64 @@
 
 @section('content')
 <style>
-    /* Estilos avanzados para las tarjetas del catálogo */
     .catalog-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 1rem;
     }
-    .catalog-header h2 {
+    .catalog-header h1 {
         margin: 0;
-        font-weight: 700;
-        color: #f1f5f9;
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        background: linear-gradient(90deg, #f8fafc, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     .courses-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 2.5rem;
         margin-bottom: 3rem;
     }
     .course-card {
         background-color: var(--pico-card-background-color) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 14px !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 16px !important;
         overflow: hidden;
         padding: 0 !important;
         display: flex;
         flex-direction: column;
-        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
     }
     .course-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.4), 0 4px 12px -2px rgba(139, 92, 246, 0.15) !important;
-        border-color: rgba(139, 92, 246, 0.3) !important;
+        transform: translateY(-8px);
+        box-shadow: 0 20px 30px -10px rgba(139, 92, 246, 0.25) !important;
+        border-color: rgba(139, 92, 246, 0.4) !important;
     }
-    .card-banner {
-        height: 8px;
+    
+    /* Imagen de Portada Automatizada */
+    .card-image-wrapper {
+        position: relative;
+        height: 160px;
+        background-color: #1f2937;
+        overflow: hidden;
+    }
+    .card-image-wrapper img {
         width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.75;
+        transition: transform 0.5s ease;
     }
-    .banner-basico { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-    .banner-intermedio { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-    .banner-avanzado { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .course-card:hover .card-image-wrapper img {
+        transform: scale(1.08);
+        opacity: 0.9;
+    }
 
     .card-body {
         padding: 1.5rem;
@@ -56,39 +73,42 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 0.75rem;
+        margin-bottom: 1rem;
     }
     .course-code {
-        font-family: monospace;
-        background-color: rgba(255, 255, 255, 0.06);
-        padding: 0.15rem 0.5rem;
-        border-radius: 4px;
+        font-family: 'Courier New', Courier, monospace;
+        background-color: rgba(167, 139, 250, 0.1);
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
         font-size: 0.8rem;
-        color: #94a3b8;
+        color: #c084fc;
+        font-weight: 600;
+        border: 1px solid rgba(167, 139, 250, 0.15);
     }
     .level-badge {
         font-size: 0.75rem;
-        font-weight: 600;
-        padding: 0.2rem 0.6rem;
+        font-weight: 700;
+        padding: 0.25rem 0.75rem;
         border-radius: 20px;
-        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
-    .badge-basico { background-color: #2563eb; }
-    .badge-intermedio { background-color: #d97706; }
-    .badge-avanzado { background-color: #dc2626; }
+    .badge-basico { background-color: #2563eb; color: white; }
+    .badge-intermedio { background-color: #d97706; color: white; }
+    .badge-avanzado { background-color: #dc2626; color: white; }
 
     .course-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        line-height: 1.4;
+        font-size: 1.35rem;
+        font-weight: 700;
         margin-bottom: 0.75rem;
         color: #f8fafc;
+        line-height: 1.3;
     }
     .course-desc {
         font-size: 0.9rem;
         color: #94a3b8;
-        line-height: 1.5;
-        margin-bottom: 1.25rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -100,121 +120,126 @@
         justify-content: space-between;
         align-items: center;
         padding-top: 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        margin-bottom: 1.25rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        margin-bottom: 1.5rem;
     }
     .course-duration {
         font-size: 0.85rem;
-        color: #cbd5e1;
+        color: #94a3b8;
         display: flex;
         align-items: center;
         gap: 0.4rem;
     }
     .course-price {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #34d399; /* Verde esmeralda brillante */
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #34d399;
+        text-shadow: 0 2px 10px rgba(52, 211, 153, 0.2);
     }
+    
+    /* Botones de acción estilizados */
     .card-actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
-    .card-actions .btn-action {
-        padding: 0.4rem 0.5rem !important;
-        font-size: 0.8rem !important;
+    .btn-action {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
         margin-bottom: 0 !important;
-        display: flex;
+        display: inline-flex !important;
         align-items: center;
         justify-content: center;
-        gap: 0.3rem;
-        border-radius: 6px !important;
+        gap: 0.4rem;
+        border-radius: 8px !important;
+        transition: all 0.2s ease !important;
+    }
+    .btn-view {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #f1f5f9 !important;
+    }
+    .btn-view:hover {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+    }
+    .btn-edit {
+        background-color: transparent !important;
+        border: 1px solid rgba(167, 139, 250, 0.4) !important;
+        color: #c084fc !important;
+    }
+    .btn-edit:hover {
+        background-color: rgba(167, 139, 250, 0.1) !important;
     }
     .btn-delete-container {
         grid-column: span 2;
-        margin-top: 0.25rem;
     }
-    .btn-delete-container button {
+    .btn-delete {
         width: 100%;
         background-color: transparent !important;
-        border: 1px solid rgba(239, 68, 68, 0.4) !important;
+        border: 1px solid rgba(239, 68, 68, 0.3) !important;
         color: #f87171 !important;
     }
-    .btn-delete-container button:hover {
-        background-color: rgba(239, 68, 68, 0.1) !important;
-    }
-    .empty-state {
-        padding: 4rem 2rem;
-        text-align: center;
-        background-color: var(--pico-card-background-color);
-        border-radius: 14px;
-        border: 1px dashed rgba(255, 255, 255, 0.1);
+    .btn-delete:hover {
+        background-color: rgba(239, 68, 68, 0.15) !important;
+        border-color: #ef4444 !important;
     }
 </style>
 
 <section>
     <div class="catalog-header">
-        <h2>Catálogo de Cursos Ofertados</h2>
-        <a href="{{ route('cursos.create') }}" role="button" style="background-color: var(--pico-primary); border: none; padding: 0.5rem 1.2rem; border-radius: 8px;">
+        <h1>Catálogo de Cursos Ofertados</h1>
+        <a href="{{ route('cursos.create') }}" class="btn-nuevo-curso" style="text-decoration: none;">
             <i class="fa-solid fa-plus"></i> Registrar Curso
         </a>
     </div>
 
-    @if($cursos->isEmpty())
-        <div class="empty-state">
-            <i class="fa-solid fa-folder-open" style="font-size: 3rem; color: #475569; margin-bottom: 1rem; display: block;"></i>
-            <p style="color: #94a3b8; font-size: 1.05rem;">No hay programas académicos registrados en este momento.</p>
-            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">Crea un nuevo curso para nutrir la vitrina del catálogo.</p>
-            <a href="{{ route('cursos.create') }}" class="outline" role="button" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; padding: 0.4rem 1rem;">
-                <i class="fa-solid fa-sparkles"></i> Agregar primer curso
-            </a>
-        </div>
-    @else
-        <div class="courses-grid">
-            @foreach($cursos as $curso)
-                <article class="course-card">
-                    <!-- Banner de color según el nivel -->
-                    <div class="card-banner banner-{{ Str::slug($curso->nivel) }}"></div>
+    <div class="courses-grid">
+        @foreach($cursos as $curso)
+            <article class="course-card">
+                <!-- Imagen Dinámica según el Nombre del Curso -->
+                <div class="card-image-wrapper">
+                    <img src="https://unsplash.com" alt="Banner del curso">
+                </div>
+                
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span class="course-code"><i class="fa-solid fa-hashtag"></i> {{ $curso->codigo }}</span>
+                        <span class="level-badge badge-{{ Str::slug($curso->nivel) }}">{{ $curso->nivel }}</span>
+                    </div>
                     
-                    <div class="card-body">
-                        <div class="card-meta">
-                            <span class="course-code"><i class="fa-solid fa-hashtag"></i> {{ $curso->codigo }}</span>
-                            <span class="level-badge badge-{{ Str::slug($curso->nivel) }}">{{ $curso->nivel }}</span>
+                    <h3 class="course-title">{{ $curso->titulo }}</h3>
+                    <p class="course-desc">{{ $curso->descripcion }}</p>
+                    
+                    <div class="card-info-row">
+                        <div class="course-duration">
+                            <i class="fa-regular fa-clock" style="color: #a78bfa;"></i> 
+                            <span>{{ $curso->duracion_horas }} horas lectivas</span>
                         </div>
-                        
-                        <h3 class="course-title">{{ $curso->titulo }}</h3>
-                        <p class="course-desc">{{ $curso->descripcion }}</p>
-                        
-                        <div class="card-info-row">
-                            <div class="course-duration">
-                                <i class="fa-regular fa-clock" style="color: #a78bfa;"></i> 
-                                <span>{{ $curso->duracion_horas }} h lectivas</span>
-                            </div>
-                            <div class="course-price">
-                                S/ {{ number_format($curso->precio, 2) }}
-                            </div>
-                        </div>
-                        
-                        <div class="card-actions">
-                            <a href="{{ route('cursos.show', $curso->id) }}" class="outline btn-action" role="button">
-                                <i class="fa-solid fa-eye"></i> Detalle
-                            </a>
-                            <a href="{{ route('cursos.edit', $curso->id) }}" class="outline secondary btn-action" role="button">
-                                <i class="fa-solid fa-pen-to-square"></i> Editar
-                            </a>
-                            
-                            <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST" class="btn-delete-container" onsubmit="return confirm('¿Está seguro de que desea eliminar permanentemente este programa del catálogo?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="outline btn-action">
-                                    <i class="fa-regular fa-trash-can"></i> Eliminar Curso
-                                </button>
-                            </form>
+                        <div class="course-price">
+                            S/ {{ number_format($curso->precio, 2) }}
                         </div>
                     </div>
-                </article>
-            @endforeach
-        </div>
-    @endif
+                    
+                    <div class="card-actions">
+                        <a href="{{ route('cursos.show', $curso->id) }}" class="btn-action btn-view" role="button">
+                            <i class="fa-solid fa-eye"></i> Ver
+                        </a>
+                        <a href="{{ route('cursos.edit', $curso->id) }}" class="btn-action btn-edit" role="button">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                        </a>
+                        
+                        <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST" class="btn-delete-container" onsubmit="return confirm('¿Está seguro de que desea eliminar permanentemente este programa académico?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-action btn-delete">
+                                <i class="fa-regular fa-trash-can"></i> Eliminar Curso
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        @endforeach
+    </div>
 </section>
 @endsection
