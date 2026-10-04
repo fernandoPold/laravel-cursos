@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Clase CursoStoreRequest
@@ -33,7 +34,12 @@ class CursoStoreRequest extends FormRequest
         $cursoId = $this->route('curso');
 
         return [
-            'codigo' => 'required|string|max:20|unique:cursos,codigo,' . $cursoId,
+            'codigo' => [
+                'required',
+                'string',
+                'max:20',
+                Rule::unique('cursos', 'codigo')->ignore($cursoId),
+            ],
             'titulo' => 'required|string|max:150',
             'descripcion' => 'required|string|min:10',
             'precio' => 'required|numeric|min:0|max:999999.99', // Mitigación contra desbordes en DECIMAL(8,2)
@@ -56,8 +62,10 @@ class CursoStoreRequest extends FormRequest
             'descripcion.min' => 'La descripción debe tener al menos 10 caracteres explícitos.',
             'precio.required' => 'Debe ingresar el precio de inversión del curso.',
             'precio.numeric' => 'El precio debe ser un valor numérico válido.',
+            'precio.min' => 'El precio del curso no puede ser un valor negativo.',
             'precio.max' => 'El precio excede el límite financiero permitido por la base de datos.',
             'duracion_horas.required' => 'Debe especificar la duración en horas.',
+            'duracion_horas.max' => 'La duración del programa excede el límite máximo permitido (1000 horas).',
             'nivel.in' => 'El nivel académico seleccionado no cumple el catálogo permitido.',
         ];
     }

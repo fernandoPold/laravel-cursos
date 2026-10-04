@@ -228,7 +228,7 @@
                             <i class="fa-solid fa-pen-to-square"></i> Editar
                         </a>
                         
-                        <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST" class="btn-delete-container" onsubmit="return confirm('¿Está seguro de que desea eliminar permanentemente este programa académico?')">
+                        <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST" class="btn-delete-container" onsubmit="return confirm('¿Está seguro de que desea dar de baja este programa académico del catálogo público?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn-action btn-delete">
