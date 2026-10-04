@@ -1,21 +1,24 @@
 <?php
 
+
 namespace App\Http\Requests;
+
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+
 /**
  * Clase CursoStoreRequest
- * 
- * Gestiona el aislamiento, la sanitización y las reglas de validación estructurales 
+ *
+ * Gestiona el aislamiento, la sanitización y las reglas de validación estructurales
  * para las solicitudes de almacenamiento y actualización de cursos.
  */
 class CursoStoreRequest extends FormRequest
 {
     /**
      * Determina si el actor de la petición posee autorización de acceso.
-     * 
+     *
      * @return bool
      */
     public function authorize(): bool
@@ -23,15 +26,17 @@ class CursoStoreRequest extends FormRequest
         return true;
     }
 
+
     /**
      * Define las reglas semánticas y de límites numéricos para mitigar desbordes.
-     * 
+     *
      * @return array
      */
     public function rules(): array
     {
         // Se extrae el ID del curso de la ruta si corresponde a una actualización para ignorar su propia unicidad
         $cursoId = $this->route('curso');
+
 
         return [
             'codigo' => [
@@ -48,9 +53,10 @@ class CursoStoreRequest extends FormRequest
         ];
     }
 
+
     /**
      * Define los mensajes explícitos de error orientados al usuario final.
-     * 
+     *
      * @return array
      */
     public function messages(): array

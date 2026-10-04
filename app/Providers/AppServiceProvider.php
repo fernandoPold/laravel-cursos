@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Vincula el contrato abstracto con su implementación concreta (DIP). $this->app->bind(CursoServiceInterface::class, CursoService::class); 
+        // Vincula el contrato abstracto con su implementación concreta (DIP).
         $this->app->bind(CursoServiceInterface::class, CursoService::class);
     }
 
