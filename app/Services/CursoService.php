@@ -73,7 +73,7 @@ class CursoService implements CursoServiceInterface
      */
     public function actualizarCurso(int $id, array $datos): Curso
     {
-        // Se ejecuta fuera del try-catch para no pisar el mensaje de "No existe" detectado por la auditoría
+        // Se ejecuta fuera del try-catch para no pisar el mensaje "No existe" detectado en la auditoría
         $curso = $this->obtenerPorId($id);
 
         try {
@@ -94,6 +94,7 @@ class CursoService implements CursoServiceInterface
      */
     public function eliminarCurso(int $id): bool
     {
+        // Se ejecuta fuera del try-catch para mantener la transparencia del mensaje original
         $curso = $this->obtenerPorId($id);
 
         try {
